@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2011
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadsAndLibraries", "RoadsAndLibraries\RoadsAndLibraries.csproj", "{4245FCB1-126D-46F1-AC14-B3E214834DBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphProblems", "RoadsAndLibraries\GraphProblems.csproj", "{4245FCB1-126D-46F1-AC14-B3E214834DBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
