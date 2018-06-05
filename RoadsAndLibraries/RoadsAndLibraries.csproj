@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectedComponents.cs" />
+    <Compile Include="ConnectedSubComponentAPI.cs" />
+    <Compile Include="ConnectedSubsetComponents.cs" />
     <Compile Include="GraphAPI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
