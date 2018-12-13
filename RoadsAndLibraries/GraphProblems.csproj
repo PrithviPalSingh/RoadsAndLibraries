@@ -42,9 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BreadthFirstSeach.cs" />
+    <Compile Include="CCForDFSHard.cs" />
     <Compile Include="ConnectedComponents.cs" />
     <Compile Include="ConnectedSubComponentAPI.cs" />
     <Compile Include="ConnectedSubsetComponents.cs" />
+    <Compile Include="DepthFirstSearch.cs" />
     <Compile Include="GraphAPI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
