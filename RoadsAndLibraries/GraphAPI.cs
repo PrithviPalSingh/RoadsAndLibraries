@@ -10,6 +10,8 @@ namespace GraphProblems
     {
         private ICollection<int>[] Collection;
 
+        public Dictionary<string, string> dict = new Dictionary<string, string>();
+
         private int s;
 
         private long[] color;
@@ -43,6 +45,14 @@ namespace GraphProblems
         {
             Collection[v - 1].Add(w - 1);
             Collection[w - 1].Add(v - 1);
+        }
+
+        public void AddEdgeExt(int v, int w, string align)
+        {
+            Collection[v].Add(w);
+            Collection[w].Add(v);
+            string key = v < w ? v + "|" + w : w + "|" + v;
+            dict.Add(key, align);
         }
 
         public ICollection<int> Adjacent(int v)

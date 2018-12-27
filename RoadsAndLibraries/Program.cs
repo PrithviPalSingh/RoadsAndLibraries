@@ -32,7 +32,7 @@ namespace GraphProblems
             //Console.WriteLine(result);
             #endregion
 
-            #region -- Jounery to moon
+            #region Jounery to moon
             //string[] tokens_n = Console.ReadLine().Split(' ');
             //int n = 5;// Convert.ToInt32(tokens_n[0]);
             //int p = 3;// Convert.ToInt32(tokens_n[1]);
@@ -44,20 +44,228 @@ namespace GraphProblems
             //Console.WriteLine(result);
             #endregion
 
+            #region connected sub components
             //ConnectedSubsetComponents cc = new ConnectedSubsetComponents();
             //cc.FindSubsetComponents(new long[] { 2, 5, 9 });
+            #endregion
 
-            #region
+            #region Nearest clone
             //TestNearestClone();
             #endregion
 
-            #region
-            TestDFSHard();
+            #region DFS Hard
+            //TestDFSHard();
+            #endregion
+
+            #region Castle on the grid
+            string[] grid = new string[] { ".X.", ".X.", "..." };
+            //string[] grid = new string[] { "....", "....", ".XXX", "...." };
+            //string[] grid = new string[] { "...X..", ".X....", ".X....", "......", "......", "......" };
+
+            //string[] grid = new string[] { ".X..XX...X", "X.........",
+            //".X.......X",
+            //"..........",
+            //"........X.",
+            //".X...XXX..",
+            //".....X..XX",
+            //".....X.X..",
+            //"..........",
+            //".....X..XX"};
+            #region bigger string
+            //string[] grid = new string[] {  "...X......XX.X...........XX....X.XX.....", ".X..............X...XX..X...X........X.X",
+            //                                "......X....X....X.........X...........X.", ".X.X.X..X........X.....X.X...X.....X..X.",
+            //                                "....X.X.X...X..........X..........X.....", "..X......X....X....X...X....X.X.X....XX.",
+            //                                "...X....X.......X..XXX.......X.X.....X..", "...X.X.........X.X....X...X.........X...",
+            //                                "XXXX..X......X.XX......X.X......XX.X..XX", ".X........X....X.X......X..X....XX....X.",
+            //                                "...X.X..X.X.....X...X....X..X....X......", "....XX.X.....X.XX.X...X.X.....X.X.......",
+            //                                ".X.X.X..............X.....XX..X.........", "..X...............X......X........XX...X",
+            //                                ".X......X...X.XXXX.....XX...........X..X",
+            //                                "...X....XX....X...XX.X..X..X..X.....X..X",
+            //                                "...X...X.X.....X.....X.....XXXX.........",
+            //                                "X.....XX..X.............X.XX.X.XXX......",
+            //                                ".....X.X..X..........X.X..X...X.X......X",
+            //                                "...X.....X..X.............X......X..X..X",
+            //                                "........X.....................X....X.X..",
+            //                                "..........X.....XXX...XX.X..............",
+            //                                "........X..X..........X.XXXX..X.........",
+            //                                "..X..X...X.......XX...X.....X...XXX..X..",
+            //                                ".X.......X..............X....X...X....X.",
+            //                                ".................X.....X......X.....X...",
+            //                                ".......X.X.XX..X.XXX.X.....X..........X.",
+            //                                "X..X......X..............X..X.X.......X.",
+            //                                "X........X.....X.....X....XX.......XX...",
+            //                                "X.....X.................X.....X..X...XXX",
+            //                                "XXX..X..X.X.XX..X....X.....XXX..X......X",
+            //                                "..........X.....X.....XX................",
+            //                                "..X.........X..X.........X...X.....X....",
+            //                                ".X.X....X...XX....X...............X.....",
+            //                                ".X....X....XX.XX........X..X............",
+            //                                "X...X.X................XX......X..X.....",
+            //                                "..X.X.......X.X..X.....XX.........X..X..",
+            //                                "........................X..X.XX..X......",
+            //                                "........X..X.X.....X.....X......X.......",
+            //                                ".X..X....X.X......XX...................."};
+            #endregion
+            // Console.WriteLine(minimumMovesDij(grid, 34, 28, 16, 8));
+            //Console.WriteLine(minimumMovesDij(grid, 0, 0, 4, 3));
+            //Console.WriteLine(minimumMovesDij(grid, 9, 1, 9, 6));
+            //Console.WriteLine(minimumMoves(grid, 0, 0, 0, 5));
+
+            MinMoves(grid, 0, 0, 0, 2);
             #endregion
 
             Console.Read();
         }
 
+        #region castle on the grid BFS
+        static int minimumMoves(string[] grid, int startX, int startY, int goalX, int goalY)
+        {
+            int from = -1;
+            int to = -1;
+            int n = grid.Length;
+            int[][] matrix = new int[n][];
+            int tracker = 0;
+            for (int i = 0; i < n; i++)
+            {
+                matrix[i] = new int[n];
+                for (int j = 0; j < n; j++)
+                {
+                    if (grid[i][j] != 'X')
+                    {
+                        matrix[i][j] = tracker;
+                    }
+                    else
+                    {
+                        matrix[i][j] = -1;
+                    }
+
+                    tracker++;
+                    if (startX == i && startY == j)
+                    {
+                        from = matrix[i][j];
+                    }
+
+                    if (goalX == i && goalY == j)
+                    {
+                        to = matrix[i][j];
+                    }
+                }
+            }
+
+            GraphAPI gapi = new GraphAPI(tracker);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (i < n - 1 && matrix[i][j] != -1 && matrix[i + 1][j] != -1)
+                        gapi.AddEdgeExt(matrix[i][j], matrix[i + 1][j], "V");
+
+                    if (j < n - 1 && matrix[i][j] != -1 && matrix[i][j + 1] != -1)
+                        gapi.AddEdgeExt(matrix[i][j], matrix[i][j + 1], "H");
+                }
+            }
+
+            BFSForCastleGrid bfs = new BFSForCastleGrid(gapi, from);
+
+            List<int> list = bfs.PathTo(to).ToList();
+            string previousAllign = string.Empty;
+            int count = 0;
+            for (int i = 0; i < list.Count() - 1; i++)
+            {
+                string key = list[i] < list[i + 1] ? list[i] + "|" + list[i + 1] : list[i + 1] + "|" + list[i];
+                var item = gapi.dict[key];
+
+                if (previousAllign == string.Empty || previousAllign != item)
+                {
+                    count++;
+                    previousAllign = item;
+                }
+            }
+
+            return count;
+        }
+        #endregion
+
+        #region castle on the grid dijkstra's
+        static int minimumMovesDij(string[] grid, int startX, int startY, int goalX, int goalY)
+        {
+            int from = -1;
+            int to = -1;
+            int n = grid.Length;
+            int[][] matrix = new int[n][];
+            int tracker = 0;
+            for (int i = 0; i < n; i++)
+            {
+                matrix[i] = new int[n];
+                for (int j = 0; j < n; j++)
+                {
+                    if (grid[i][j] != 'X')
+                    {
+                        matrix[i][j] = tracker;
+                    }
+                    else
+                    {
+                        matrix[i][j] = -1;
+                    }
+
+                    tracker++;
+                    if (startX == i && startY == j)
+                    {
+                        from = matrix[i][j];
+                    }
+
+                    if (goalX == i && goalY == j)
+                    {
+                        to = matrix[i][j];
+                    }
+                }
+            }
+
+            EdgeWeightedDiGraph ewdg = new EdgeWeightedDiGraph(tracker);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (i < n - 1 && matrix[i][j] != -1 && matrix[i + 1][j] != -1)
+                    {
+                        ewdg.AddEdge(new DirectedEdgeAPI(matrix[i][j], matrix[i + 1][j], 1), "V");
+                        ewdg.AddEdge(new DirectedEdgeAPI(matrix[i + 1][j], matrix[i][j], 1), "V");
+                    }
+
+                    if (j < n - 1 && matrix[i][j] != -1 && matrix[i][j + 1] != -1)
+                    {
+                        ewdg.AddEdge(new DirectedEdgeAPI(matrix[i][j], matrix[i][j + 1], 1), "H");
+                        ewdg.AddEdge(new DirectedEdgeAPI(matrix[i][j + 1], matrix[i][j], 1), "H");
+                    }
+                }
+            }
+
+            BellmanFordShortestPath djkForward = new BellmanFordShortestPath(ewdg, from);
+            //DijkstraShortestPath djkBackward = new DijkstraShortestPath(ewdg, from);
+
+            //var count = djkForward.DistTo[to] > djkBackward.DistTo[from] ? djkBackward.DistTo[from] : djkForward.DistTo[to];
+            //List<int> list = djk.PathTo(from, to).ToList();
+            //string previousAllign = string.Empty;
+            //int count = 0;
+            //for (int i = 0; i < list.Count() - 1; i++)
+            //{
+            //    string key = list[i] < list[i + 1] ? list[i] + "|" + list[i + 1] : list[i + 1] + "|" + list[i];
+            //    var item = ewdg.dict[key];
+
+            //    if (previousAllign == string.Empty || previousAllign != item)
+            //    {
+            //        count++;
+            //        previousAllign = item;
+            //    }
+            //}
+
+            return (int)0;
+        }
+        #endregion
+
+        #region DFS hard
         static void TestDFSHard()
         {
             int n = 3;
@@ -65,11 +273,6 @@ namespace GraphProblems
             int m = 6;
 
             int[][] grid = new int[n][];
-
-            //for (int i = 0; i < n; i++)
-            //{
-            //    grid[i] = Array.ConvertAll(Console.ReadLine().Split(' '), gridTemp => Convert.ToInt32(gridTemp));
-            //}
 
             grid[0] = Array.ConvertAll("1 1 1 1 0 1".Split(' '), gridTemp => Convert.ToInt32(gridTemp));
             grid[1] = Array.ConvertAll("0 0 0 0 1 0".Split(' '), gridTemp => Convert.ToInt32(gridTemp));
@@ -80,7 +283,9 @@ namespace GraphProblems
 
             Console.WriteLine(res);
         }
+        #endregion
 
+        #region Max region
         static int maxRegion(int[][] grid, int nodeCount)
         {
             GraphAPI gapi = new GraphAPI(nodeCount);
@@ -106,21 +311,21 @@ namespace GraphProblems
                     {
                         var keyOuter = i + "|" + j;
                         var from = dict[keyOuter];
-                                               
+
                         if (j > 0 && i < grid.Length - 1 && grid[i + 1][j - 1] == 1)
                         {
                             var keyInner = (i + 1) + "|" + (j - 1);
                             var to = dict[keyInner];
                             gapi.AddEdge(from, to);
                         }
-                       
-                        if (j < grid[i].Length-1 && grid[i][j + 1] == 1)
+
+                        if (j < grid[i].Length - 1 && grid[i][j + 1] == 1)
                         {
                             var keyInner = (i) + "|" + (j + 1);
                             var to = dict[keyInner];
                             gapi.AddEdge(from, to);
                         }
-                                                
+
                         if (i < grid.Length - 1 && grid[i + 1][j] == 1)
                         {
                             var keyInner = (i + 1) + "|" + j;
@@ -145,7 +350,9 @@ namespace GraphProblems
 
             return cc.Id[cc.Id.Length - 1];
         }
+        #endregion
 
+        #region Nearest clone
         static void TestNearestClone()
         {
             string[] graphNodesEdges = "5 4".Split(' ');
@@ -168,7 +375,9 @@ namespace GraphProblems
             int ans = findShortest(graphNodes, graphFrom, graphTo, ids, val);
             Console.WriteLine(ans);
         }
+        #endregion
 
+        #region find shortest
         /*
          * For the unweighted graph, <name>:
          *
@@ -223,7 +432,9 @@ namespace GraphProblems
 
 
         }
+        #endregion
 
+        #region journey to moon
         /*Suppose that we have n groups, of sizes a1 to an. Except when n is smallish, the following formula for the number N of ways 
          * to choose a pair of people from different groups is more efficient: 
          * N=((a1+⋯+an)^2 − (a1^2 +⋯+ an^2)) / 2.
@@ -267,7 +478,9 @@ namespace GraphProblems
 
             return (SumSquare - SquareSum) / 2;
         }
+        #endregion
 
+        #region roads and libraries
         static long roadsAndLibraries(int n, long c_lib, long c_road, int[][] cities)
         {
             GraphAPI gapi = new GraphAPI(n);
@@ -283,6 +496,80 @@ namespace GraphProblems
                 result = c_lib * n;
 
             return result;
+        }
+        #endregion
+
+        private static void MinMoves(string[] a, int sa, int sb, int ta, int tb)
+        {
+            int N = a.Length;
+            int[] qx = new int[N * N];
+            int[] qy = new int[N * N];
+            int[][] d = new int[N][];
+            for (int i = 0; i < N; i++)
+            {
+                d[i] = new int[N];
+            }
+
+            int e = 0;
+            qx[e] = sa;
+            qy[e] = sb;
+            d[sa][sb] = 1;
+            e++;
+            for (int it = 0; it < e; it++)
+            {
+                int x = qx[it];
+                int y = qy[it];
+                for (int j = y + 1; j < N; j++)
+                {
+                    if (a[x][j] == 'X')
+                        break;
+                    if (d[x][j] == 0) // check
+                    {
+                        qx[e] = x;
+                        qy[e] = j;
+                        e++;
+                        d[x][j] = d[x][y] + 1;
+                    }
+                }
+                for (int j = y - 1; j >= 0; j--)
+                {
+                    if (a[x][j] == 'X')
+                        break;
+                    if (d[x][j] == 0)// check
+                    {
+                        qx[e] = x;
+                        qy[e] = j;
+                        e++;
+                        d[x][j] = d[x][y] + 1;
+                    }
+                }
+                for (int i = x + 1; i < N; i++)
+                {
+                    if (a[i][y] == 'X')
+                        break;
+                    if (d[i][y] == 0)//check
+                    {
+                        qx[e] = i;
+                        qy[e] = y;
+                        e++;
+                        d[i][y] = d[x][y] + 1;
+                    }
+                }
+                for (int i = x - 1; i >= 0; i--)
+                {
+                    if (a[i][y] == 'X')
+                        break;
+                    if (d[i][y] == 0)//check
+                    {
+                        qx[e] = i;
+                        qy[e] = y;
+                        e++;
+                        d[i][y] = d[x][y] + 1;
+                    }
+                }
+            }
+
+            Console.WriteLine(d[ta][tb] - 1);
         }
     }
 }

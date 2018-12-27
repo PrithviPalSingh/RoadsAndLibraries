@@ -42,13 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BellmanFordAlgo.cs" />
+    <Compile Include="BFSForCastleGrid.cs" />
     <Compile Include="BreadthFirstSeach.cs" />
     <Compile Include="CCForDFSHard.cs" />
     <Compile Include="ConnectedComponents.cs" />
     <Compile Include="ConnectedSubComponentAPI.cs" />
     <Compile Include="ConnectedSubsetComponents.cs" />
     <Compile Include="DepthFirstSearch.cs" />
+    <Compile Include="DijkstraShortestPath.cs" />
+    <Compile Include="DirectedEdgeAPI.cs" />
+    <Compile Include="EdgeWeightedGrapgh.cs" />
     <Compile Include="GraphAPI.cs" />
+    <Compile Include="MinIndexedPQ.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
